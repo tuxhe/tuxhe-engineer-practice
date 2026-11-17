@@ -5,7 +5,7 @@ Comprehensions in Python: the three parts and the cases they cover.
 Rewrite each body as ONE comprehension: a single `return [...]`, `return {...}` or `return {k: v ...}`.
 Keep the names, parameters and return types. Run the tests to check your answers.
 
-Short: _link added after upload_
+Short: https://youtube.com/shorts/WRgLUMF74YU
 
 ## Practice
 
