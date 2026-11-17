@@ -5,7 +5,7 @@ import inspect
 from collections.abc import Callable, Iterator
 
 import pytest
-from comprehensions import paid_prices, sign_labels, squares_of_evens, unique_lengths
+from comprehensions import common_items, paid_prices, sign_labels, squares_of_evens, unique_lengths
 
 
 def test_squares_of_evens() -> None:
@@ -28,6 +28,39 @@ def test_paid_prices() -> None:
 def test_sign_labels_keeps_every_number() -> None:
     assert sign_labels([-2, 0, 5]) == ["neg", "zero", "pos"]
     assert sign_labels([]) == []
+
+
+class CountingIterable:
+    """An iterable that counts how many times it is walked: `in` on it walks it, just like on a list."""
+
+    def __init__(self, items: list[str]) -> None:
+        self.items = items
+        self.walks = 0
+
+    def __iter__(self) -> Iterator[str]:
+        self.walks += 1
+        return iter(self.items)
+
+
+def test_common_items_keeps_order_and_duplicates() -> None:
+    assert common_items(["a", "b", "a", "c"], ["c", "a"]) == ["a", "a", "c"]
+    assert common_items([], ["a"]) == []
+    assert common_items(["a"], []) == []
+
+
+def test_common_items_walks_b_once() -> None:
+    """O(n + m): b is read once into a set. Walking it per item of a (x in b, or set(b) in the if) is O(n * m)."""
+    b = CountingIterable(["x", "y", "z"])
+    common_items(["y", "q", "z", "x"], b)
+    assert b.walks == 1
+
+
+def test_the_junior_answer_walks_b_for_every_item() -> None:
+    """What the interviewer is checking: `in` on a non-set walks it again for each item."""
+    b = CountingIterable(["x", "y", "z"])
+    a = ["q", "q", "q", "q"]
+    assert [x for x in a if x in b] == []
+    assert b.walks == len(a)
 
 
 def test_the_parts_run_for_then_if_then_expression() -> None:

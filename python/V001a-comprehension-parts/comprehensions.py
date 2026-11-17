@@ -2,7 +2,10 @@
 
 Rewrite each body as ONE comprehension: a single `return [...]`, `return {...}` or `return {k: v ...}`.
 Keep the names, parameters and return types. Run the tests to check your answers.
+`common_items` is an interview question: two lines are allowed there, and its complexity is what is graded.
 """
+
+from collections.abc import Hashable, Iterable
 
 
 def squares_of_evens(nums: list[int]) -> list[int]:
@@ -25,4 +28,13 @@ def paid_prices(items: list[tuple[str, float]]) -> dict[str, float]:
 
 def sign_labels(nums: list[int]) -> list[str]:
     """Label EVERY number "neg", "zero" or "pos": an if-else before the for picks a value, it never filters."""
+    raise NotImplementedError
+
+
+def common_items[T: Hashable](a: list[T], b: Iterable[T]) -> list[T]:
+    """Items of `a` that are also in `b`, in the order of `a` (duplicates kept), in O(n + m).
+
+    Interview question. The junior answer, `[x for x in a if x in b]`, is O(n * m): `in` scans a list item by item.
+    The trap: anything written inside the if runs again for every item of `a`.
+    """
     raise NotImplementedError
